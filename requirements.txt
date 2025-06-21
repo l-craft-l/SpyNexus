@@ -1,0 +1,7 @@
+requests[socks]
+beautifulsoup4
+phonenumbers
+geopy
+exif
+googlesearch-python
+python-whois
