@@ -6,13 +6,32 @@
 
 ---
 
-## 📃 Installation
+## 📝 Requirements
 
-```
+```bash
+# 🟠 Debian/Ubuntu
+sudo apt install python3 python3-pip build-essential libffi-dev libssl-dev
+
+# 🔵 Arch Linux
+sudo pacman -S python python-pip base-devel libffi openssl
+
+# 🔷 Create a Virtual Environment (replace "env" with your preferred name)
+python3 -m venv env
+source env/bin/activate
+pip install --upgrade pip
+
+----credits to --->blushingchutney<---
+for helping the installation for SpyNexus (^_^)
+````
+
+## 📃 installation
+```bash
+source {env}/bin/activate <-- replace env for your environment.
+
 git clone https://github.com/l-craft-l/SpyNexus.git
 cd SpyNexus
 python SpyNexus.py
-````
+```
 
 🛠️ *It will install the missing packages automatically.*
 🔁 *Once done, run the script again to start.*
