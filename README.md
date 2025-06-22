@@ -60,7 +60,7 @@ It combines multiple tools to gather **public intelligence** from different sour
 5. 🗺️ Search coordinates or places
 6. 👤 Search users on various sites
 7. 🖼️ Extract metadata from images
-8. 🔍 Google Dorking (with custom commands)
+8. 🔍 Google Dorking (with custom commands) **You can see the manual** [here](manual/manual_tool_dorking.md)
 9. 🎩 Deep Search (deep/dark web engines)
 
 ---
