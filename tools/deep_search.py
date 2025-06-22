@@ -181,6 +181,11 @@ def obtain_results(query, lk, results):
                 write_effect(f"{display_error} Another error has ocurred in the next link: {maRed(err)}", 0.02)
                 space_between()
                 continue
+            except Exception as err:
+                write_effect(f"{display_error} Another error has ocurred, {maRed(err)}", 0.02)
+                space_between()
+                continue
+
             if get_link.status_code != 200:
                 write_effect(f"{display_error} Error in the link, status code: {maRed(get_link.status_code)}, link: {maRed(link)}", 0.02)
                 space_between()
