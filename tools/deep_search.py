@@ -13,6 +13,7 @@ Use responsibly. Only for ethical, research or educational purposes.
 Never attempt to access unauthorized or illegal content.
 """
 
+import requests
 from core.save_data import save_data
 from core.agents import agents
 from bs4 import BeautifulSoup
