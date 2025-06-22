@@ -1,5 +1,5 @@
 <p align="center">
-    <img width=200px height=200px src="screenshots/main.png">
+    <img width=350 height=500 src="screenshots/main.png">
 </p>
 
 # 🧠 SpyNexus – The network of espionage and information analysis
@@ -8,7 +8,7 @@
 
 ## 📃 Installation
 
-```bash
+```
 git clone https://github.com/l-craft-l/SpyNexus.git
 cd SpyNexus
 python SpyNexus.py
@@ -54,6 +54,30 @@ When using **Google Dorking**, or another tool. Now allows you to choose:
 * 🕳️ **Anonymous connection via Tor (SOCKS5 proxy)**
 
 You can select this **before each search**, and the connection will be handled accordingly.
+
+Also you need to open a **new terminal** and start a new tor connection. ***How to do it?***
+
+### 🔨 Installation & initiation of the Tor Network
+first, you need to verify if your terminal is **updated**
+```
+sudo apt update && apt upgrade -y
+```
+Once done you can type:
+```
+sudo apt install tor -y
+```
+Once the installation is **finished you can start a new terminal**
+and start, just typing **"tor"** and doing enter.
+
+**Example:**
+
+![Screenshot](screenshots/tor.png)
+
+Once it says **"done"** at the end of the terminal.
+
+**Now you can use the Tor feature in SpyNexus!**
+
+---
 
 ### 🔸 Advantages of Tor connection
 
