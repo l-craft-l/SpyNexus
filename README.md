@@ -36,6 +36,10 @@ python SpyNexus.py
 🛠️ *It will install the missing packages automatically.*
 🔁 *Once done, run the script again to start.*
 
+**⚠️ In case you got an error do this:**
+```
+pip install -r requirements.txt
+```
 ---
 
 ## ❓ What is SpyNexus?
@@ -48,6 +52,7 @@ python SpyNexus.py
 * 📰 Cyber journalists
 
 It combines multiple tools to gather **public intelligence** from different sources — **legally and ethically**.
+Also can be run in a ***Mobile environment with Termux!***
 
 ---
 
