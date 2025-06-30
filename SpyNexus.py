@@ -87,7 +87,7 @@ except ModuleNotFoundError as pkg:
     print()
 
     try:
-        launch("pip install -r requirements.txt && rm requirements.txt")
+        launch("pip install -r requirements.txt")
     except Exception as err:
         write_effect(err, 0.03)
         exit()
