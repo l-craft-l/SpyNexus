@@ -296,13 +296,9 @@ def search_dork(dork_query, results, delay, file, tor=False):
         final_search = special_command('docs', file_tp, part, all_doc, final_search)
 
         if part == 'dbase':
-            for data in all_db:
-                url_search += f" {data} "
-            final_search += url_search
+            final_search += "OR".join([f' {url_search}"{ex}" ' for ex in all_db])
         if part == 'breach':
-            for data in possible_breaches:
-                url_search += f" {data} "
-            final_search += url_search
+            final_search += "OR".join([f' {url_search}"{ex}" ' for ex in possible_breaches])
 
         if part.startswith('doc='):
             cont = part.split("=")[1].strip('" ')
