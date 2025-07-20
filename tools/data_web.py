@@ -15,6 +15,7 @@ import whois
 import datetime
 from whois import parser
 from core.save_data import save_data
+from core.ma_command import check_internet
 from tools.g_dorking import multi_search, gg_connection
 from tools.coordinates import get_location
 from core.display import (
@@ -38,9 +39,10 @@ def get_site(site):
     Parameters:
         site (str): The target domain name (e.g. "example.com")
     """
+    if not check_internet(): raise Exception(f"{display_error} Error, connection needed for this module...")
 
     global file
-    file = f"data/websites/results_{site}_file.txt"
+    file = f"data/websites/results_{site}_file.md"
     try:
         get_data = whois.whois(site)
     except whois.parser.PywhoisError:
@@ -49,7 +51,7 @@ def get_site(site):
         raise Exception(f"{display_error} Another error has occurred, {maRed(err)}")
 
     write_effect(f"\n{display_validate} {maGreen('Data of the website found!')} {maGreen(surprised)}\n", 0.05)
-    save_data(file, f'\nResults of the website "{site}":\n', None, "a", False)
+    save_data(file, f"## <center>🖥️ Extracting WHOIS data from the website {site}</center>", "---\n", "a", False)
 
     for tag, data in get_data.items():
         tag = tag.replace("_", " ").capitalize()
@@ -60,47 +62,48 @@ def get_site(site):
 
         if isinstance(data, list):
             write_effect(f"{display_info} {maBold(tag)}:", 0.005)
-            save_data(file, None, f"{tag}:", "a", False)
+            save_data(file, f"ℹ️ {tag}:", None, "a", False)
 
             if len(data) == 1 and isinstance(data[0], str) and '\n' in data[0]:
                 for line in data[0].splitlines():
                     write_effect(f"  {display_extra} {maGreen(line)}", 0.005)
-                    save_data(file, None, f"  -> {line}", "a", False)
+                    save_data(file, f"- 🔹{line}", None, "a", False)
             else:
                 for item in data:
                     if isinstance(item, datetime.datetime):
                         item = item.strftime("%Y-%m-%d %H:%M:%S")
                     write_effect(f"  {display_extra} {maGreen(item)}", 0.005)
-                    save_data(file, None, f"  -> {item}", "a", False)
+                    save_data(file, f"- 🔹{item}", None, "a", False)
 
         elif isinstance(data, datetime.datetime):
             formatted = data.strftime("%Y-%m-%d %H:%M:%S")
             write_effect(f"{display_info} {maBold(tag)}: {maGreen(formatted)}", 0.005)
-            save_data(file, None, f"{tag}: {formatted}", "a", False)
+            save_data(file, f"📅 {tag}: {formatted}", None, "a", False)
 
         elif isinstance(data, str) and '\n' in data:
             write_effect(f"{display_info} {maBold(tag)}:", 0.005)
-            save_data(file, None, f"{tag}:", "a", False)
+            save_data(file, f"ℹ️ {tag}:", None, "a", False)
             for line in data.splitlines():
                 write_effect(f"  {display_extra} {maGreen(line)}", 0.005)
-                save_data(file, None, f"  -> {line}", "a", False)
+                save_data(file, f"🔹{line}", None, "a", False)
 
         else:
             write_effect(f"{display_info} {maBold(tag)}: {maGreen(data)}", 0.005)
-            save_data(file, None, f"{tag}: {data}", "a", False)
+            save_data(file, f"✴️ {tag}: {data}", None, "a", False)
 
-    try:
-        get_adr = get_data.get("address")
+    get_adr = get_data.get("address")
 
-        if get_adr != "null":
-            between_tag("INFO LOCATION")
+    if get_adr != "null":
+        between_tag("INFO LOCATION")
+        try:
             get_location(get_adr, None, file)
-        else:
-            save_data(file, None, None, "a", True)
+            mess = "### 🗺️ Location found: ✅"
+        except Exception:
+            write_effect(f"{display_question} Location from {maBold(site)} not found...", 0.05)
+            mess = "### 🗺️ Location found: ❌"
+        save_data(file, "\n---\n", mess, "a", False)
 
-    except Exception:
-        write_effect(f"{display_question} Location from {maBold(site)} not found...", 0.05)
-
+    save_data(file, None, None, "a", True)
 
 def execute_webtool():
     """
@@ -121,6 +124,8 @@ def execute_webtool():
 
     ask_web = str(input(f'\n{display_question} Do you want to search "{maBold(site)}" using Google Dorks? ({maGreen("y")}/{maRed("n")}): '))
     if check_key(ask_web):
+        save_data(file, "\n---", f"## <center>🖥️ Searching the website {site} usong Google Dorks</center>", "a", False)
+
         sel = str(input(f"{display_question} Do you want to use a Tor network for this module? ({maGreen('y')}/{maRed('n')}): ")).strip()
         tor = check_key(sel)
         if tor: gg_connection(True)
@@ -128,18 +133,20 @@ def execute_webtool():
         wait_out(0.5)
 
         ls_search_site = [
-           (f'site="{site}"', 10, 3),
-           (f'rel="{site}"', 10, 3),
-           (f'site="{site}"&docs', 10, 3),
-           (f'site="{site}"&email', 10, 3),
-           (f'site="{site}"&docs&email', 10, 3),
-           (f'site="{site}"&phone', 10, 3),
-           (f'site="{site}"&docs&phone', 10, 3),
-           (f'site="{site}"&pass', 10, 3),
-           (f'site="{site}"&breach', 10, 3),
-           (f'site="{site}"&keys', 10, 3),
-           (f'site="{site}"&docs&leak', 10, 3),
-           (f'site="{site}"&dbase', 10, 3)
+           (f'site="{site}"', 10),
+           (f'rel="{site}"', 10),
+           (f'site="{site}"&docs', 10),
+           (f'site="{site}"&email', 10),
+           (f'site="{site}"&docs&email', 10),
+           (f'site="{site}"&phone', 10),
+           (f'site="{site}"&docs&phone', 10),
+           (f'site="{site}"&pass', 10),
+           (f'site="{site}"&breach', 10),
+           (f'site="{site}"&keys', 10),
+           (f'site="{site}"&docs&leak', 10),
+           (f'site="{site}"&dbase', 10),
+           (f'site="{site}"&index', 10),
+           (f'site="{site}"&conf', 10)
         ]
 
         multi_search(1, ls_search_site, file, tor)

@@ -77,7 +77,7 @@ def list_response(url):
 
 
 
-def save_info(query, list):
+def save_info(query, list, src, lk):
     """
     Save the successfully collected results to a file.
 
@@ -86,17 +86,31 @@ def save_info(query, list):
         list (list): List of tuples (title, description, URL).
     """
 
-    file = f"data/deep_results/results_{query}_file.txt"
-    save_data(file, f"\nResults of '{query}':\n", None, "a", False)
+    no_dt = 0
+    file = f"data/deep_results/results_{query}_file.md"
+    save_data(file, f'## <center>🎩 Results of the search "{query}"', None, "a", False)
 
     for st, ds, url in list:
-        if st != no_info:
-            save_data(file, None, f"Site: {st}", "a", False)
-        if ds != no_info:
-            save_data(file, None, f"Description: {ds}", "a", False)
-        save_data(file, f"URL: {url}", f"{'~'*50}", "a", False)
-    save_data(file, None, None, "a", True)
+        if st != no_info: save_data(file, f"\n[{st}]({url})", None, "a", False)
+        if ds != no_info: save_data(file, f"> {ds}", None, "a", False)
+        if st == no_info:
+            no_dt += 1
+            save_data(file, f"\n- Unknown Website: ({url})", None, "a", False)
+    mess = f"""
+\n---
+## 🗃️ Final Summary
+- 🔍 Total results obtained: **{len(list)}**
+- ❓ Total websites unkwown: **{no_dt}**
+- 🌐 Searcher selected: [{src}]({lk})
+---
+## ⚠️ **WARNING**
+> I don't recommend to visit ***ilegal*** websites, there's a big chance
+> this websites are **scam** or **malicious**, unless you know what are
+> you doing.
+> **I'm not responsible to any ilegal activities.**
+    """
 
+    save_data(file, mess, None, "a", True)
 
 
 def get_searcher():
@@ -125,12 +139,12 @@ def get_searcher():
         write_effect(maYellow(f'\nSearching "{query}" in the dark web...\n'), 0.05)
 
         url += query
-        return query, url, res
+        return query, url, res, searcher
     else:
         raise Exception(f"{display_error} There's not valid option such as {maBold(sel)}!")
 
 
-def obtain_results(query, lk, results):
+def obtain_results(query, lk, results, src):
     """
     Requests and parses dark web search results using Tor connection.
 
@@ -146,7 +160,7 @@ def obtain_results(query, lk, results):
     try:
         main_query = connect.get(lk, headers=main_agent, timeout=20)
     except requests.exceptions.ConnectionError:
-        raise Exception(f"{display_error} Error, can't connect to the Searcher... Are you connected to Tor Network{display_question}")
+        raise Exception(f"{display_error} Error, can't connect to the Searcher... Are you connected to Tor Network {display_question}")
     except requests.exceptions.RequestException as err:
         raise Exception(f"{display_error} Another error has ocurred in the query: {maRed(err)}")
     if main_query.status_code != 200:
@@ -218,7 +232,7 @@ def obtain_results(query, lk, results):
             save_list.append((title, description, link))
 
     sv_conf = str(input(f"\n{display_question} Do you want to save the results? ({maGreen('y')}/{maRed('n')}): "))
-    if check_key(sv_conf): save_info(query, save_list)
+    if check_key(sv_conf): save_info(query, save_list, src, lk)
 
 
 def ex_deep():
@@ -229,5 +243,5 @@ def ex_deep():
 
     write_effect(deep_warning, 0.005)
 
-    query, url, results = get_searcher()
-    obtain_results(query, url, results)
+    query, url, results, searcher = get_searcher()
+    obtain_results(query, url, results, searcher)

@@ -161,7 +161,11 @@ def execute_ph():
     space_between()
     write_effect(f"{display_question} {maYellow('Warning')}: The location of the phone number can be approximate.", 0.05)
     region = geocoder.description_for_number(exist, "en")
-    get_location(str(region), None, file)
+    try:
+        get_location(str(region), None, file)
+    except Exception:
+        save_data(file, "- ❌ Location not found", None, "a", False)
+        write_effect(f"{display_extra} Location not found...\n", 0.02)
 
     space_between()
     ask_ggdork = str(input(f"{display_question} Do you want to search this '{maBold(phone_number)}' phone number in Google? ({maGreen('y')}/{maRed('n')}): "))

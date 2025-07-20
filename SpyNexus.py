@@ -15,6 +15,8 @@ Features:
 - Handles graceful fallback for missing packages with auto-install
 - Offers interactive CLI menu to select tools with themed icons and animations
 - Repeats execution loop until user exits
+- New feature! now you can see the results of any tools with markdown!
+more easier to read and understand!
 
 Tools Available:
 ----------------
@@ -50,7 +52,7 @@ Repository: https://github.com/l-craft-l/SpyNexus
 Usage:
 ------
 Run this file directly via terminal or Python interpreter:
-    python spynexus.py
+    python SpyNexus.py
 
 Note:
 -----
@@ -71,6 +73,7 @@ from core.display import (
     wait_out, space_between, between_tag, check_key
 )
 from core.ma_command import launch
+from core.ma_command import check_internet
 
 try:
     import requests
@@ -206,16 +209,6 @@ write_effect(f'{backRed("THE NETWORK OF ESPIONAGE AND INFORMATION ANALYSIS")}: {
 
 print(f'\nCreated and Developed by: {maGreen("l-craft-l")}\n{maBold("GitHub")}: {maUnderline("https://github.com/l-craft-l")}\n{maBold("Repository")}: {maUnderline("https://github.com/l-craft-l/SpyNexus")}')
 
-def check_internet(url="https://google.com"):
-    try:
-        requests.get(url, timeout=5)
-    except Exception:
-        write_effect(f"{display_error} No connection detected... Try again later.", 0.05)
-        return False
-
-    return True
-
-
 def cont_spy():
     option = str(input(f"\n{display_question} Do you want to continue? ({maGreen('y')}/{maRed('n')}): "))
     if check_key(option): show_main()
@@ -224,8 +217,6 @@ def cont_spy():
         exit()
 
 def main():
-    if not check_internet(): exit()
-
     try:
         make_conditions()
 
@@ -255,7 +246,6 @@ def main():
                     from core.socks_connect import get_tor_connection
                     select_agent = agents()
                     try:
-                        global response
                         ses = get_tor_connection()
                         response = ses.get('https://api.ipify.org?format=json', headers=select_agent)
                     except Exception:
@@ -283,6 +273,7 @@ def main():
                     cont_spy()
 
                 elif elec == 3:
+                    if not check_internet(): raise Exception(f"{display_error} Error, connection neeeded for this module...")
                     show_icon("icons/tl_wb", maBlue, maTeal)
 
                     execute_webtool()
@@ -295,6 +286,7 @@ def main():
                     cont_spy()
 
                 elif elec == 5:
+                    if not check_internet(): continue
                     show_icon("icons/tl_loc", maSkyBlue, maBlue)
 
                     ls_loc = [
@@ -324,6 +316,7 @@ def main():
                     cont_spy()
 
                 elif elec == 6:
+                    if not check_internet(): continue
                     show_icon("icons/tl_us", maRed, maRed)
 
                     execute_user()
@@ -336,12 +329,14 @@ def main():
                     cont_spy()
 
                 elif elec == 8:
+                    if not check_internet(): continue
                     show_icon("icons/tl_gk", maOrange, maLightYellow)
 
                     available_commands()
                     cont_spy()
 
                 elif elec == 9:
+                    if not check_internet(): continue
                     show_icon("icons/tl_ds", maMagenta, maPink)
 
                     ex_deep()

@@ -16,8 +16,11 @@ Key features:
 import requests
 import time
 import random
+import urllib.parse
+import warnings
 from googlesearch import search as dorking_google
 from bs4 import BeautifulSoup
+from bs4 import XMLParsedAsHTMLWarning
 from core.display import (
     prRed, prGreen, prCyan, prYellow, maRed, maBlue, maCyan, maYellow, maOrange,
     maMagenta, maGreen, maPink,
@@ -29,8 +32,12 @@ from core.display import (
 )
 from core.save_data import save_data
 from core.agents import agents
+from http import HTTPStatus
 
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 no_info = 'Unknown'
+errs = []
+conf = []
 
 all_operators = [
     ("site", 'Search on a specific website. Example: site="example.com"'),
@@ -52,13 +59,18 @@ all_operators = [
     ("kword", 'Search using multiple keywords. Example: kword="admin,password,login"'),
     ("dbase", 'Search for database file references in URLs. (auto-handled, just type dbase)'),
     ("breach", 'Search for breach-related keywords in URLs. (auto-handled, just type breach)'),
+    ("conf", 'Search for exposed configuration files. Usage: config'),
 
     ("pass", 'Search for exposed passwords. Use: pass'),
     ("email", 'Search for email leaks. Use: email'),
     ("phone", 'Search for leaked phone numbers. Use: phone'),
     ("adr", 'Search for exposed addresses. Use: adr'),
     ("keys", 'Search for leaked API keys. Use: keys'),
-    ("leak", 'Search for leaks (data/files). Use: leak')
+    ("leak", 'Search for leaks (data/files). Use: leak'),
+    ("cv", 'Search for public CVs, resumes, or curriculum vitae. Use: cv'),
+    ("contr", 'Search for confidential or legal contracts online. Use: contract'),
+    ("invoice", 'Search for exposed invoices or billing documents. Use: invoice'),
+    ("index", 'Search for publicly exposed web directories (index of). Use: index'),
 ]
 
 def gg_connection(value=False):
@@ -81,7 +93,7 @@ def gg_connection(value=False):
     else:
         return requests
 
-def make_search(query, num_of_results, pause, file, tor=False):
+def make_search(query, num_of_results, file, tor=False):
     """
     Executes a Google Dork search based on the final parsed query.
     Handles request retries, result formatting, and optional Tor usage.
@@ -89,83 +101,93 @@ def make_search(query, num_of_results, pause, file, tor=False):
     Parameters:
         query (str): A final Google Dork query string.
         num_of_results (int): How many search results to retrieve.
-        pause (int): Delay in seconds between each request.
         file (str): Destination filepath to save formatted results.
         tor (bool): Whether to route requests through the Tor network.
 
     Side Effects:
         - Results are printed to the terminal.
-        - Results are saved to a text file.
+        - Results are saved to a markdown file.
         - Prints errors or warnings for invalid links or failed requests.
     """
+    MAX_RETRIES = 4
+    retry_count = 0
 
     total_search_results = 0
-    num_of_no_results = 0
-    first_result = False
-    for url in dorking_google(query, num_results=num_of_results):
+    connection = gg_connection(tor)
 
-        if num_of_no_results >= 5 or first_result == None:
-            write_effect(f'{display_error} There are not enough results for this search {maBlue(sad)}', 0.05)
-            break
-
-        if not url or not url.startswith(('http://', 'https://')):
-            write_effect(f'{display_error} Error, the url is invalid: {maRed(url)}', 0.02)
-            num_of_no_results += 1
-            if first_result == False and url == '':
-                first_result = None
-            space_between()
-            continue
-
-        select_agent = agents()
-        time.sleep(pause)
+    while retry_count < MAX_RETRIES:
+        get_list = []
         try:
-            connection = gg_connection(tor)
-            result_dork = connection.get(url, headers=select_agent, timeout=30)
+            for url in dorking_google(query, num_results=num_of_results):
+                if not url or not url.startswith(('http://', 'https://')): continue
+                if url: get_list.append(url)
+
+            if get_list: break
+            else:
+                retry_count = MAX_RETRIES
+                break
+
+        except Exception as err:
+            if "429" in str(err):
+                retry_count += 1
+                write_effect(f"{display_error} Oops!, it seems Google detect an {maRed('suspicious activity')}...\n{display_info} Trying to make the search again in 30 seconds...\n{display_info} Try change your IP Address with a {maBold('VPN')}, to evade the block from Google...", 0.02)
+                space_between()
+                time.sleep(30)
+
+    if not get_list:
+        save_data(file, "- No **results found** on this search ❌", None, "a", False)
+        write_effect(f"{display_error} There are not enough results for this search {maBlue(sad)}", 0.03)
+        return
+
+    for link in get_list:
+        select_agent = agents()
+        time.sleep(random.uniform(0.5, 2))
+        try:
+            result_dork = connection.get(link, headers=select_agent, timeout=30)
 
             if result_dork.status_code != 200:
-                write_effect(f"{display_error} Error, can't check the url, status code: {maRed(result_dork.status_code)}, {maRed(url)}", 0.02)
+                write_effect(f"{display_error} Error, can't check the url, status code: {maRed(result_dork.status_code)}, {maRed(link)}", 0.02)
+                errs.append((link, result_dork.status_code))
                 space_between()
                 continue
 
             try:
                 soup = BeautifulSoup(result_dork.text, 'html.parser')
-                title_url = soup.title.text if soup.title else f"{no_info}"
+                title_url = soup.title.text if soup.title else no_info
                 description_tag = soup.find('meta', attrs={'name': 'description'})
-                description_url = description_tag["content"] if description_tag else f"{no_info}"
+                description_url = description_tag["content"] if description_tag else no_info
             except AssertionError:
-                write_effect(f'{display_error} Assertion Error in the site. {maRed(url)}', 0.05)
+                write_effect(f'{display_error} Assertion Error in the site. {maRed(link)}', 0.05)
                 space_between()
                 continue
             except Exception as err:
-                write_effect(f"{display_error} Another error has ocurred, {maRed(err)}\n{display_info} {maBold('URL:')} {maUnderline(url)}", 0.02)
+                write_effect(f"{display_error} Another error has ocurred, {maRed(err)}\n{display_info} {maBold('URL:')} {maUnderline(link)}", 0.02)
                 space_between()
                 continue
+
+            total_search_results += 1
+            conf.append(link)
 
             if file:
                 if title_url != no_info:
                     write_effect(f'{display_info} {maBold("Site")}: {maSkyBlue(title_url)}', 0.005)
-                    save_data(file, None, f"Site: {title_url}", 'a', False)
+                    save_data(file, f"\n{total_search_results}. [{title_url}]({link})", None, 'a', False)
                 else:
                     write_effect(f"{display_question} {maBold('Site')}: {maYellow(no_info)}", 0.005)
 
                 if description_url != no_info:
                     write_effect(f"{display_extra} {maBold('Description')}: {maGreen(description_url)}", 0.005)
-                    save_data(file, None, f"Description: {description_url}", 'a', False)
+                    save_data(file, f"> {description_url}", None, 'a', False)
                 else:
                     write_effect(f"{display_question} {maBold('Description')}: {maYellow(no_info)}", 0.005)
 
-                write_effect(f"{display_info} {maCyan('URL')}: {maUnderline(url)}", 0.005)
+                write_effect(f"{display_info} {maCyan('URL')}: {maUnderline(link)}", 0.005)
                 space_between()
-                URL = f'URL: {url}'
-                save_data(file, URL, f"{'~'*50}", 'a', False)
-
-            num_of_no_results = 0
-            first_result = True
-            total_search_results += 1
+                if title_url == no_info:
+                    save_data(file, f'{total_search_results}. **Website unknown:** ({link})', None, 'a', False)
 
         except requests.exceptions.RequestException as url_err:
             write_effect(f'{display_error} Another error has ocurred, {maRed(url_err)}', 0.02)
-            num_of_no_results += 1
             space_between()
 
         except requests.exceptions.HTTPError as http_err:
@@ -177,9 +199,10 @@ def make_search(query, num_of_results, pause, file, tor=False):
             space_between()
 
         except requests.exceptions.ReadTimeout as rd_error:
-            write_effect(f'{display_error} Error, read timeout exceeded, {maRed(rd_error)}', 0.02)
-            space_between()
+             write_effect(f'{display_error} Error, read timeout exceeded, {maRed(rd_error)}', 0.02)
+             space_between()
 
+    save_data(file, "\n---\n", None, "a", False)
     if total_search_results <= 0:
         write_effect(f'\n{display_extra} There were a total of "{total_search_results}" confirmed searches {maBlue(sad)}', 0.05)
     else:
@@ -190,7 +213,7 @@ def make_search(query, num_of_results, pause, file, tor=False):
 # special search of google/dorking
 #########################
 
-def search_dork(dork_query, results, delay, file, tor=False):
+def search_dork(dork_query, results, file, tor=False):
     """
     Converts a user-friendly query containing smart keywords into a valid
     Google Dork query, then triggers a search.
@@ -198,7 +221,6 @@ def search_dork(dork_query, results, delay, file, tor=False):
     Parameters:
         dork_query (str): Raw search string using simplified custom syntax.
         results (int): Number of search results desired.
-        delay (int): Time in seconds to pause between results.
         file (str): Path to a file where results are saved.
         tor (bool): Whether to use the Tor proxy session for anonymity.
 
@@ -240,6 +262,8 @@ def search_dork(dork_query, results, delay, file, tor=False):
     all_doc = ['pdf', 'txt', 'xlsx', 'docx', 'pptx', 'json', 'log', 'xls', 'sql', 'env', 'db', 'bak',
     'xml', 'csv', 'ini', 'yml', 'conf']
 
+    all_cf = ['ini', 'json', 'conf', 'csv', 'xml', 'sql', 'env', 'db', 'bak']
+
     possible_breaches = ['admin', 'phpMyAdmin', 'DB_PASSWORD', 'cpanel',
     'dashboard', 'adminpanel', 'administrator', 'admin/login', 'config.php', '.env',
     'wp-admin', 'login.php', 'root', 'index of /admin', 'ftp', 'ssh']
@@ -254,6 +278,19 @@ def search_dork(dork_query, results, delay, file, tor=False):
     'private', 'classified', 'sensitive', 'top secret', 'confidencial', 'clasificado',
     'restringido', 'privado', 'no distribuir', 'sensible']
 
+    all_idx = ['index of /admin', 'index of /backup', 'index of /private', 'index of /db',
+    'index of /ftp', 'index of /documents']
+
+    all_ivc = ['invoice', 'invoice number', 'total amount', 'quote', 'quotation',
+    'factura']
+
+    all_ctr = ['confidential contract', 'service level agreement', 'contract between',
+    'license agreement', 'memorandum of understanding', 'contrato confidencial',
+    'contrato']
+
+    all_cv = ['curriculum', 'curriculum vitae', 'resume', 'CV', 'CV of', 'contact',
+    'hoja de vida']
+
     dork_query.lower()
     parts = dork_query.split('&')
 
@@ -261,20 +298,21 @@ def search_dork(dork_query, results, delay, file, tor=False):
         if part.startswith(f'{cmd}='):
             ext = part.split('=')[1].strip('" ')
             if ext:
-                final_search += f'{dork}{ext} '
-            else:
-                write_effect(f"{display_error} You can't leave the command '{cmd}' empty!", 0.03)
-                final_search = ''
-        elif part == cmd:
-            write_effect(f"{display_error} Error, the command '{cmd}' can't be empty!", 0.02)
+                cont = [dt.strip() for dt in ext.split(",")]
+                if cont and dork: final_search += "OR".join(f' {dork}"{dt}" ' for dt in cont)
+                elif cont and not dork: final_search += "OR".join(f' "{dt}" ' for dt in cont)
+                else:
+                    if dork: final_search += f' {dork}"{ext}" '
+                    else: final_search += f' "{ext}" '
+            else: write_effect(f"{display_error} You can't leave the command '{cmd}' empty!", 0.03)
+
+        elif part == cmd: write_effect(f"{display_error} Error, the command '{cmd}' can't be empty!", 0.02)
         return final_search
 
     def special_command(cmd, dork, part, list, final_search):
         if part == cmd:
-            if dork != None:
-                final_search += "OR".join([f' {dork}{ext} ' for ext in list])
-            else:
-                final_search += "OR".join([f' "{ext}" ' for ext in list])
+            if dork: final_search += "OR".join([f' {dork}"{ext}" ' for ext in list])
+            else: final_search += "OR".join([f' "{ext}" ' for ext in list])
         return final_search
 
     for part in parts:
@@ -292,45 +330,41 @@ def search_dork(dork_query, results, delay, file, tor=False):
         final_search = command_search('auth', aut_search, part, final_search)
         final_search = command_search('src', src_search, part, final_search)
         final_search = command_search('cache', cac_search, part, final_search)
+        final_search = command_search('kword', None, part, final_search)
 
-        final_search = special_command('docs', file_tp, part, all_doc, final_search)
 
-        if part == 'dbase':
-            final_search += "OR".join([f' {url_search}"{ex}" ' for ex in all_db])
-        if part == 'breach':
-            final_search += "OR".join([f' {url_search}"{ex}" ' for ex in possible_breaches])
-
-        if part.startswith('doc='):
-            cont = part.split("=")[1].strip('" ')
-            if cont:
-                files = [fl.strip() for fl in cont.split(",") if fl.strip() in all_doc]
-                if files: final_search += "OR".join(f" {file_tp}{file} " for file in files)
-                else: final_search += f" {file_tp}{cont} "
-            else: write_effect(f"{display_error} The command 'doc' can't be empty!", 0.005)
-
-        if part.startswith('kword='):
-            cont = part.split("=")[1].strip('" ')
-            if cont:
-                kwr = [keyword.strip() for keyword in cont.split(",")]
-                if kwr: final_search += "OR".join(f' "{ky}" ' for ky in kwr)
-                else: final_search += f' "{cont}" '
-            else: write_effect(f"{display_error} The command 'kword' can't be empty!", 0.005)
-
+        final_search = special_command('dbase', url_search, part, all_db, final_search)
+        final_search = special_command('breach', url_search, part, possible_breaches, final_search)
+        final_search = special_command('index', title_search, part, all_idx, final_search)
         final_search = special_command('pass', None, part, all_pass, final_search)
         final_search = special_command('email', None, part, all_email, final_search)
         final_search = special_command('phone', None, part, all_ph, final_search)
         final_search = special_command('adr', None, part, all_adr, final_search)
         final_search = special_command('keys', None, part, all_ky, final_search)
         final_search = special_command('leak', None, part, all_sn, final_search)
+        final_search = special_command('invoice', None, part, all_ivc, final_search)
+        final_search = special_command('contr', None, part, all_ctr, final_search)
+        final_search = special_command('cv', None, part, all_cv, final_search)
 
+        if part.startswith("doc="):
+            ext = part.split("=")[1].strip('" ')
+            if ext:
+                cont = [dt.strip() for dt in ext.split(",")]
+                if cont: final_search += "OR".join(f' {file_tp}{dt} ' for dt in cont)
+                else: final_search += f' {file_tp}{ext} '
+            else: write_effect(f"{display_error} You can't leave the command '{cmd}' empty!", 0.03)
+
+        if part == "docs": final_search += "OR".join(f' {file_tp}{fl} ' for fl in all_doc)
+        if part == "conf": final_search += "OR".join(f' {file_tp}{fl} ' for fl in all_cf)
 
     if final_search == '':
         write_effect(f"{display_error} Error, the query is empty! {maRed(angry)}", 0.03)
     else:
         space_between()
         print(f"{display_extra} Command converted: {maBold(final_search)}")
+        save_data(file, f"## 🔍 Search: `{dork_query}` [Check](https://www.google.com/search?q={urllib.parse.quote_plus(final_search.strip())}) \n**Searched results:** {results}\n", "### ✅ Results", "a", False)
         space_between()
-        make_search(final_search, results, delay, file, tor)
+        make_search(final_search, results, file, tor)
 
 
 
@@ -342,7 +376,7 @@ def multi_search(num, main_ls, file, tor=False):
     Parameters:
         num (int): Number of separate search commands to execute.
         main_ls (list or None): Optional list of prebuilt search tuples.
-                                Each tuple contains (query, result count, delay).
+                                Each tuple contains (query, result count).
         file (str): Path to save combined output of all searches.
         tor (bool): Enables Tor for the entire batch if set True.
 
@@ -366,38 +400,53 @@ def multi_search(num, main_ls, file, tor=False):
             rets = int(input(f"×××{maRed('[')}{maBold('RESULTS-OF-SEARCH')}-{maBold(num_av)}{maRed(']')}---> "))
             if rets <= 0:
                 raise Exception(f"{display_error} Error, the results can't be 0!")
-            dly = int(input(f"×××{maRed('[')}{maBold('DELAY-OF-SEARCH')}-{maBold(num_av)}{maRed(']')}---> "))
-            if dly <= 0:
-                raise Exception(f"{display_error} Error, the delay can't be below or equals to 0!")
 
-            list_src.append((srch, rets, dly))
+            list_src.append((srch, rets))
         main_ls = list_src
 
     num_cmds = 0
-    for srch, rets, dly in main_ls:
+    for srch, rets in main_ls:
         num_cmds += 1
         messg = f'\nMaking search number "{num_cmds}"...\nThe command is: {srch}\n'
-
-        save_data(file, f"\nResults of command: {srch}\n", None, "a", False)
         write_effect(maYellow(messg), 0.05)
-        search_dork(srch, rets, dly, file, tor)
-    save_data(file, None, None, "a", True)
+        search_dork(srch, rets, file, tor)
 
+    if not errs: save_data(file, "\n- No errors detected ✅", None, "a", False)
+    else:
+        save_data(file, "\n---\n### ❌ Errors", None, "a", False)
+        for lk, err in errs:
+            try:
+                status = HTTPStatus(err).phrase
+            except Exception:
+                status = "Unknown Status"
+            save_data(file, f'- [Link]({lk}) -> **{err} {status}**', None, "a", False)
+
+    mess = f"""
+\n---\n## 📊 Final Summary\n\n
+- 🔍 Total searches: {num_cmds}
+- 📑 Total Valid Results: {len(conf)} links
+- ⚠️ Total Errors: {len(errs)}
+    """
+
+    if not tor:
+        mess += '\n- 🧅  Tor used: ❌'
+    else: mess += '\n- 🧅  Tor ued: ✅'
+    tip = f'---\n> Remember this searches are **NOT** 100% acurate, check the links given one by one.'
+    save_data(file, mess, tip, "a", True)
 
 
 def three_pr(sh):
     """
     Utility function to prompt user for three core search parameters:
-    search string, number of results, and delay between queries.
 
     Parameters:
         sh (str): Short label shown in the prompt UI.
 
     Returns:
-        tuple: (search_term: str, number_of_results: int, delay: int)
+        tuple: (search_term: str, number_of_results: int)
 
     Raises:
-        Exception: If the input is empty or invalid (e.g. delay = 0).
+        Exception: If the input is empty or invalid (e.g. results = 0).
     """
 
     main1 = input(f'\n×××{maRed("[")}{maBold(sh)}{maRed("]")}---> ').strip().lower()
@@ -408,10 +457,7 @@ def three_pr(sh):
     if results <= 0:
         raise Exception(f"{display_error} You can't leave the number of results below or equals to 0! {maRed(angry)}")
 
-    delay = int(input(f'×××{maRed("[")}{maBold("DELAY")}{maRed("]")}---> '))
-    if delay <= 0:
-        raise Exception(f"{display_error} You can't leave the time of delay below or equals to 0! {maRed(angry)}")
-    return main1, results, delay
+    return main1, results
 
 
 
@@ -428,8 +474,9 @@ def available_commands():
     Prompts:
         - Tor connection option
         - Type of dork to perform
-        - Inputs for filename, delays, result limits
+        - Inputs for filename and result limits
     """
+
 
     sel = str(input(f"{display_question} Do you want to use a Tor network for this module? ({maGreen('y')}/{maRed('n')}): ")).strip()
     tor = check_key(sel)
@@ -452,16 +499,20 @@ def available_commands():
     cmd = int(input(f"\n×××{maRed('[')}{maBold('SPY-DORKING')}{maRed(']')}---> "))
 
     if cmd == 1:
-       user, res, dly = three_pr("DORK-USER")
-       file = f"data/dorks/user_dorks/results_{user}_file.txt"
+       user, res = three_pr("DORK-USER")
+       file = f"data/dorks/user_dorks/results_{user}_file.md"
+       mess = f"\n## <center>👤 Search of the user {user} using Google Dorks</center>"
+       save_data(file, mess, None, "a", False)
 
        ls_search_user = [
-           (f'a_descr="{user}"', res, dly),
-           (f'a_descr="{user}"&docs', res, dly),
-           (f'a_descr="{user}"&email', res, dly),
-           (f'a_descr="{user}"&phone', res, dly),
-           (f'a_descr="{user}"&adr', res, dly),
-           (f'a_descr="{user}"&dbase', res, dly)
+           (f'a_descr="{user}"', res),
+           (f'a_descr="{user}"&docs', res),
+           (f'a_descr="{user}"&email', res),
+           (f'a_descr="{user}"&phone', res),
+           (f'a_descr="{user}"&adr', res),
+           (f'a_descr="{user}"&dbase', res),
+           (f'a_descr="{user}"&cv', res),
+           (f'a_descr="{user}"&cv&docs', res)
        ]
 
        multi_search(1, ls_search_user, file, tor)
@@ -469,63 +520,73 @@ def available_commands():
     elif cmd == 2:
         usr = input(f"\n×××{maRed('[')}{maBold('DORK-PROFILE')}{maRed(']')}---> ").strip()
         if len(usr) <= 0: raise Exception(f"{display_error} Error, you can't leave the profile empty!")
-        site, res, dly = three_pr("WEBSITE")
+        site, res = three_pr("WEBSITE")
 
-        file = f"data/dorks/profile_dorks/results_{usr}_file.txt"
+        file = f"data/dorks/profile_dorks/results_{usr}_file.md"
+        mess = f'\n## <center>🖥️ Search of the user {usr} on the website {site} using Google Dorks</center>'
 
+        save_data(file, mess, None, "a", False)
         ls_search_profile = [
-            (f'site="{site}"&descr="{usr}"', res, dly),
-            (f'site="{site}"&descr="{usr}"&email', res, dly),
-            (f'site="{site}"&descr="{usr}"&phone', res, dly),
-            (f'site="{site}"&descr="{usr}"&pass', res, dly),
-            (f'site="{site}"&descr="{usr}"&adr', res, dly)
+            (f'site="{site}"&descr="{usr}"', res),
+            (f'site="{site}"&descr="{usr}"&email', res),
+            (f'site="{site}"&descr="{usr}"&phone', res),
+            (f'site="{site}"&descr="{usr}"&pass', res),
+            (f'site="{site}"&descr="{usr}"&adr', res)
         ]
 
         multi_search(1, ls_search_profile, file, tor)
 
     elif cmd == 3:
-       site, res, dly = three_pr("DORK-WEBSITE")
-       file = f"data/dorks/site_dorks/results_{site}_file.txt"
+       site, res = three_pr("DORK-WEBSITE")
+       file = f"data/dorks/site_dorks/results_{site}_file.md"
+       mess = f'\n## <center>📜 Search of the website {site} using Google Dorks'
 
+       save_data(file, mess, None, "a", False)
        ls_search_site = [
-           (f'site="{site}"', res, dly),
-           (f'rel="{site}"', res, dly),
-           (f'site="{site}"&docs', res, dly),
-           (f'site="{site}"&email', res, dly),
-           (f'site="{site}"&docs&email', res, dly),
-           (f'site="{site}"&phone', res, dly),
-           (f'site="{site}"&docs&phone', res, dly),
-           (f'site="{site}"&pass', res, dly),
-           (f'site="{site}"&breach', res, dly),
-           (f'site="{site}"&keys', res, dly),
-           (f'site="{site}"&docs&leak', res, dly),
-           (f'site="{site}"&dbase', res, dly)
+           (f'site="{site}"', res),
+           (f'rel="{site}"', res),
+           (f'site="{site}"&docs', res),
+           (f'site="{site}"&email', res),
+           (f'site="{site}"&docs&email', res),
+           (f'site="{site}"&phone', res),
+           (f'site="{site}"&docs&phone', res),
+           (f'site="{site}"&pass', res),
+           (f'site="{site}"&breach', res),
+           (f'site="{site}"&keys', res),
+           (f'site="{site}"&docs&leak', res),
+           (f'site="{site}"&dbase', res),
+           (f'site="{site}"&index', res),
+           (f'site="{site}"&conf', res),
        ]
 
        multi_search(1, ls_search_site, file, tor)
 
     elif cmd == 4:
-        email, res, dly = three_pr("DORK-EMAIL")
-        file = f"data/dorks/email_dorks/results_{email}_file.txt"
+        email, res = three_pr("DORK-EMAIL")
+        file = f"data/dorks/email_dorks/results_{email}_file.md"
+        mess = f'## <center>✉️ Search of the email {email} using Google Dorks</center>'
 
+        save_data(file, mess, None, "a", False)
         ls_search_email = [
-            (f'descr="{email}"', res, dly),
-            (f'descr="{email}"&docs', res, dly),
-            (f'descr="{email}"&pass', res, dly),
-            (f'descr="{email}"&docs&pass', res, dly),
-            (f'descr="{email}"&dbase', res, dly)
+            (f'descr="{email}"', res),
+            (f'descr="{email}"&docs', res),
+            (f'descr="{email}"&pass', res),
+            (f'descr="{email}"&docs&pass', res),
+            (f'descr="{email}"&dbase', res)
         ]
 
         multi_search(1, ls_search_email, file, tor)
 
     elif cmd == 5:
-        phone, res, dly = three_pr("DORK-PHONE")
-        file = f"data/dorks/phone_dorks/results_{phone}_file.txt"
+        phone, res = three_pr("DORK-PHONE")
+        file = f"data/dorks/phone_dorks/results_{phone}_file.md"
+        mess = f'## <center>📱 Search of the phone number {phone} using Google Dorks</center>'
 
+        save_data(file, mess, None, "a", False)
         ls_search_phone = [
-            (f'a_descr="{phone}"', res, dly),
-            (f'a_descr="{phone}"&docs', res, dly),
-            (f'a_descr="{phone}"&dbase', res, dly)
+            (f'a_descr="{phone}"', res),
+            (f'a_descr="{phone}"&docs', res),
+            (f'a_descr="{phone}"&dbase', res)
         ]
 
         multi_search(1, ls_search_phone, file, tor)
@@ -539,15 +600,17 @@ def available_commands():
             for comm, des in all_operators:
                 print(f"{display_extra} {comm.ljust(7)} --> {maSkyBlue(des)}")
 
-            srch, res, dly = three_pr("CUSTOM-SEARCH")
+            srch, res = three_pr("CUSTOM-SEARCH")
             fl_user = str(input(f"×××{maRed('[')}{maBold('FILE')}{maRed(']')}---> ")).strip()
             if len(fl_user) <= 0: raise Exception(f"{display_error} Error, the file name can't be empty!")
 
-            file = f"data/dorks/custom/search_{fl_user}_results.txt"
+            file = f"data/dorks/custom/search_{fl_user}_results.md"
+            mess = f'## <center>📝 The user selected the custom option using Google Dorks</center>'
+            save_data(file, mess, None, "a", False)
             wait_out(0.5)
             print()
 
-            search_dork(srch, res, dly, file, tor)
+            search_dork(srch, res, file, tor)
 
             save_data(file, None, None, "a", True)
         elif option == 2:
@@ -560,8 +623,10 @@ def available_commands():
 
             fl_user = str(input(f"×××{maRed('[')}{maBold('FILE')}{maRed(']')}---> ")).strip()
             if len(fl_user) <= 0: raise Exception(f"{display_error} Error, the file name can't be empty!")
-            file = f"data/dorks/custom/search_{fl_user}_results.txt"
+            file = f"data/dorks/custom/search_{fl_user}_results.md"
+            mess = f'## <center>📝 The user selected the custom option using Google Dorks</center>'
 
+            save_data(file, mess, None, "a", False)
             multi_search(count, None, file, tor)
 
         else: raise Exception(f"{display_error} Error, select a valid option! {maRed(angry)}")

@@ -11,14 +11,12 @@ Well it starts with the function that it's ***make_search*** So it does the norm
 
 and it will give you results with their ***titles, descriptions and links*** And it also works with special Google operators like: **intext, intitle, filetype**, and others.
 
-You must define the number of **Results**, the time of **Delay** per each result and a **File** to save this Results given. 
-
-**🔸 ¿Why is delay important?** well it's to avoid the block from Google in your IP Address or Regional block. Google may detect your searches as **non-human** activity, and that's why I made the delay parameter to avoid this blocks from Google.
+You must define the number of **Results**, the **File** to save this Results given. 
 
 ---
 
 ## 🔍 Search_Dork function
-** How does it work?**
+**How does it work?**
 This function is made of to make this *advanced searches* through Google Search and it does with the **commands** I made like:
 
 - ***doc***: it converts to **filetype**
@@ -126,27 +124,36 @@ The command **doc** is a **command_search** so that means that the **doc** comma
 
 ## Here's the table of all commands available 🛠️
 
-| Command      | Type              | Converts to           | Requires value? | Short description                                 |
-|--------------|-------------------|------------------------|------------------|----------------------------------------------------|
+| Command      | Type               | Converts to           | Requires value?  | Short description                                 |
+|--------------|--------------------|-----------------------|------------------|---------------------------------------------------|
 | `site`       | command_search     | `site:`               | ✅ Yes           | Search within a specific domain                   |
 | `title`      | command_search     | `intitle:`            | ✅ Yes           | Search inside page titles                         |
 | `url`        | command_search     | `inurl:`              | ✅ Yes           | Match terms inside URLs                           |
 | `descr`      | command_search     | `intext:`             | ✅ Yes           | Search inside the page body text                  |
 | `rel`        | command_search     | `related:`            | ✅ Yes           | Find websites related to a given one              |
-| `doc`        | command_search     | `filetype:`           | ✅ Yes           | Filter by specific file type                      |
+| `doc`        | modified command   | `filetype:`           | ✅ Yes           | Filter by specific file type                      |
 | `a_title`    | command_search     | `allintitle:`         | ✅ Yes           | All terms must be present in the title            |
 | `a_url`      | command_search     | `allinurl:`           | ✅ Yes           | All terms must be present in the URL              |
 | `a_descr`    | command_search     | `allintext:`          | ✅ Yes           | All terms must be present in the body text        |
-| `docs`       | special_command    | List of `filetype:`   | ❌ No            | Returns a full list of common file extensions     |
-| `pass`       | special_command    | Password keywords      | ❌ No            | Searches for common password-related terms        |
-| `email`      | special_command    | Email-related terms    | ❌ No            | Looks for email addresses or patterns             |
-| `phone`      | special_command    | Phone number patterns  | ❌ No            | Looks for phone numbers or country formats        |
-| `adr`        | special_command    | Address terms          | ❌ No            | Looks for physical addresses or location data     |
-| `keys`       | special_command    | API keys / tokens      | ❌ No            | Searches for leaked access keys or tokens         |
-| `leak`       | special_command    | Leak-related keywords  | ❌ No            | Searches for breach and leak terms                |
-| `dbase`      | conditional inject | Database keywords      | ❌ No            | Injects search terms related to exposed databases |
-| `breach`     | conditional inject | Breach keywords        | ❌ No            | Injects breach-related search terms               |
-| `kword="..."`| direct input       | Custom keyword         | ✅ Yes (with `=`)| Adds a user-defined keyword to the search         |
+| `loc`        | command_search     | `location:`           | ✅ Yes           | Search results on a exact location                |
+| `auth`       | command_search     | `author:`             | ✅ Yes           | Filter by specific documents with his author      |
+| `src`        | command_search     | `source:`             | ✅ Yes           | Filter by sources from an website in specific     |
+| `cache`      | command_search     | `cache:`              | ✅ Yes           | Can search cache from an website                  |
+| `docs`       | modified command   | List of `filetype:`   | ❌ No            | Returns a full list of common file extensions     |
+| `conf`       | modified command   | List of config files  | ❌ No            | Looks for a specific list of configuration files  |
+| `pass`       | special_command    | Password keywords     | ❌ No            | Searches for common password-related terms        |
+| `email`      | special_command    | Email-related terms   | ❌ No            | Looks for email addresses or patterns             |
+| `phone`      | special_command    | Phone number patterns | ❌ No            | Looks for phone numbers or country formats        |
+| `adr`        | special_command    | Address terms         | ❌ No            | Looks for physical addresses or location data     |
+| `keys`       | special_command    | API keys / tokens     | ❌ No            | Searches for leaked access keys or tokens         |
+| `leak`       | special_command    | Leak-related keywords | ❌ No            | Searches for breach and leak terms                |
+| `dbase`      | special_command    | Database keywords     | ❌ No            | Injects search terms related to exposed databases |
+| `breach`     | special_command    | Breach keywords       | ❌ No            | Injects breach-related search terms               |
+| `index`      | special_command    | Search for index      | ❌ No            | Searches for index terms, mostly on a website     |
+| `cv`         | special_command    | CVs, resumes, terms   | ❌ No            | Searches for curriculum vitae, resumes on a person|
+| `invoice`    | special_command    | Billing-terms         | ❌ No            | Search for exposed invoice/billing documents      |
+| `contr`      | special_command    | Search for contracts  | ❌ No            | Looks for confidential/exposed contracts          | 
+| `kword="..."`| special_command    | Custom keyword        | ✅ Yes (with `=`)| Adds a user-defined keyword to the search         |
 
 
 ---

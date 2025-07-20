@@ -1,0 +1,252 @@
+{
+  "nsfw_websites": [
+    {
+      "site": "OnlyFans",
+      "url": "https://onlyfans.com/{}"
+    },
+    {
+      "site": "Pornhub",
+      "url": "https://www.pornhub.com/users/{}"
+    },
+    {
+      "site": "XNXX",
+      "url": "https://www.xnxx.com/profiles/{}"
+    },
+    {
+      "site": "XHamster",
+      "url": "https://xhamster.com/users/profiles/{}"
+    },
+    {
+      "site": "Xvideos",
+      "url": "https://www.xvideos.com/{}"
+    },
+    {
+      "site": "RedTube",
+      "url": "https://www.redtube.com/users/{}"
+    },
+    {
+      "site": "YouPorn",
+      "url": "https://www.youporn.com/user/{}"
+    },
+    {
+      "site": "CamSoda",
+      "url": "https://www.camsoda.com/{}"
+    },
+    {
+      "site": "Chaturbate",
+      "url": "https://chaturbate.com/{}"
+    },
+    {
+      "site": "MyFreeCams",
+      "url": "https://profiles.myfreecams.com/{}"
+    },
+    {
+      "site": "LiveJasmin",
+      "url": "https://www.livejasmin.com/en/user/{}"
+    },
+    {
+      "site": "FetLife",
+      "url": "https://fetlife.com/users/{}"
+    },
+    {
+      "site": "ManyVids",
+      "url": "https://www.manyvids.com/Profile/{}"
+    },
+    {
+      "site": "NaughtyAmerica",
+      "url": "https://www.naughtyamerica.com/pornstar/{}"
+    },
+    {
+      "site": "BangBros",
+      "url": "https://bangbros.com/model/{}"
+    },
+    {
+      "site": "Mofos",
+      "url": "https://www.mofos.com/model/{}"
+    },
+    {
+      "site": "DigitalPlayground",
+      "url": "https://www.digitalplayground.com/model/{}"
+    },
+    {
+      "site": "Gumroad",
+      "url": "https://{}.gumroad.com/"
+    },
+    {
+      "site": "SubscribeStar",
+      "url": "https://www.subscribestar.com/{}"
+    },
+    {
+      "site": "F-list",
+      "url": "https://www.f-list.net/c/{}/"
+    },
+    {
+      "site": "Baraag",
+      "url": "https://baraag.net/@{}"
+    },
+    {
+      "site": "Slushe",
+      "url": "https://slushe.com/@{}"
+    },
+    {
+      "site": "LoyalFans",
+      "url": "https://www.loyalfans.com/{}"
+    },
+    {
+      "site": "Kink",
+      "url": "https://www.kink.com/model/{}"
+    },
+    {
+      "site": "MetArt",
+      "url": "https://www.metart.com/model/{}"
+    },
+    {
+      "site": "Twistys",
+      "url": "https://www.twistys.com/model/{}"
+    },
+    {
+      "site": "SuicideGirls",
+      "url": "https://www.suicidegirls.com/girls/{}"
+    },
+    {
+      "site": "Eros",
+      "url": "https://www.eros.com/{}"
+    },
+    {
+      "site": "Rule34",
+      "url": "https://rule34.xxx/index.php?page=account&s=profile&uname={}"
+    },
+    {
+      "site": "Furaffinity",
+      "url": "https://www.furaffinity.net/user/{}"
+    },
+    {
+      "site": "e621",
+      "url": "https://e621.net/users/{}"
+    },
+    {
+      "site": "Fansly",
+      "url": "https://fansly.com/{}"
+    },
+    {
+      "site": "FanCentro",
+      "url": "https://fancentro.com/{}"
+    },
+    {
+      "site": "JustForFans",
+      "url": "https://justfor.fans/{}"
+    },
+    {
+      "site": "PocketStars",
+      "url": "https://pocketstars.com/{}"
+    },
+    {
+      "site": "AdmireMe.VIP",
+      "url": "https://admireme.vip/{}"
+    },
+    {
+      "site": "IsMyGirl",
+      "url": "https://ismygirl.com/{}"
+    },
+    {
+      "site": "IsMyGuy",
+      "url": "https://ismyguy.com/{}"
+    },
+    {
+      "site": "AVN Stars",
+      "url": "https://stars.avn.com/{}"
+    },
+    {
+      "site": "SpankBang",
+      "url": "https://www.spankbang.com/{}/profile"
+    },
+    {
+      "site": "BongaCams",
+      "url": "https://bongacams.com/{}"
+    },
+    {
+      "site": "Stripchat",
+      "url": "https://stripchat.com/{}"
+    },
+    {
+      "site": "XLoveCam",
+      "url": "https://www.xlovecam.com/{}"
+    },
+    {
+      "site": "Cams.com",
+      "url": "https://www.cams.com/{}"
+    },
+    {
+      "site": "Cam4",
+      "url": "https://www.cam4.com/{}"
+    },
+    {
+      "site": "CamContacts",
+      "url": "https://www.camcontacts.com/{}"
+    },
+    {
+      "site": "Alt.com",
+      "url": "https://alt.com/profile/{}"
+    },
+    {
+      "site": "Bondage.com",
+      "url": "https://bondage.com/profile/{}"
+    },
+    {
+      "site": "Collarspace",
+      "url": "https://www.collarspace.com/{}"
+    },
+    {
+      "site": "AdultFriendFinder",
+      "url": "https://adultfriendfinder.com/p/{}"
+    },
+    {
+      "site": "SwingLifestyle",
+      "url": "https://www.swinglifestyle.com/profile/{}"
+    },
+    {
+      "site": "3Fun",
+      "url": "https://www.3fun.com/users/{}"
+    },
+    {
+      "site": "InkBunny",
+      "url": "https://inkbunny.net/{}"
+    },
+    {
+      "site": "SoFurry",
+      "url": "https://www.sofurry.com/user/{}"
+    },
+    {
+      "site": "Weasyl",
+      "url": "https://www.weasyl.com/~{}"
+    },
+    {
+      "site": "HentaiFoundry",
+      "url": "https://www.hentai-foundry.com/user/{}/profile"
+    },
+    {
+      "site": "HypnoHub",
+      "url": "https://hypnohub.net/user/show/{}"
+    },
+    {
+      "site": "Gelbooru",
+      "url": "https://gelbooru.com/index.php?page=account&s=profile&uname={}"
+    },
+    {
+      "site": "Rule34.paheal",
+      "url": "https://rule34.paheal.net/user/{}"
+    },
+    {
+      "site": "TBIB",
+      "url": "https://tbib.org/index.php?page=account&s=profile&uname={}"
+    },
+    {
+      "site": "Tryst",
+      "url": "https://tryst.link/users/{}"
+    },
+    {
+      "site": "SexyJobs",
+      "url": "https://www.sexyjobs.com/{}"
+    }
+  ]
+}

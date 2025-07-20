@@ -1,0 +1,628 @@
+{
+  "websites": [
+    {
+      "site": "YouTube",
+      "url": "https://www.youtube.com/@{}"
+    },
+    {
+      "site": "Instagram",
+      "url": "https://www.instagram.com/{}"
+    },
+    {
+      "site": "Facebook",
+      "url": "https://www.facebook.com/{}"
+    },
+    {
+      "site": "Reddit",
+      "url": "https://www.reddit.com/user/{}"
+    },
+    {
+      "site": "Snapchat",
+      "url": "https://www.snapchat.com/add/{}"
+    },
+    {
+      "site": "TikTok",
+      "url": "https://www.tiktok.com/@{}"
+    },
+    {
+      "site": "Twitter/X",
+      "url": "https://x.com/{}"
+    },
+    {
+      "site": "LinkedIn",
+      "url": "https://www.linkedin.com/in/{}"
+    },
+    {
+      "site": "Pinterest",
+      "url": "https://www.pinterest.com/{}"
+    },
+    {
+      "site": "Discord",
+      "url": "https://discord.com/users/{}"
+    },
+    {
+      "site": "Spotify",
+      "url": "https://open.spotify.com/user/{}"
+    },
+    {
+      "site": "SoundCloud",
+      "url": "https://soundcloud.com/{}"
+    },
+    {
+      "site": "Twitch",
+      "url": "https://www.twitch.tv/{}"
+    },
+    {
+      "site": "Mixcloud",
+      "url": "https://www.mixcloud.com/{}"
+    },
+    {
+      "site": "Bandcamp",
+      "url": "https://bandcamp.com/{}"
+    },
+    {
+      "site": "Newgrounds",
+      "url": "https://{}.newgrounds.com"
+    },
+    {
+      "site": "ReverbNation",
+      "url": "https://www.reverbnation.com/{}"
+    },
+    {
+      "site": "Roblox",
+      "url": "https://www.roblox.com/user.aspx?username={}"
+    },
+    {
+      "site": "Steam",
+      "url": "https://steamcommunity.com/id/{}"
+    },
+    {
+      "site": "Fortnite",
+      "url": "https://fortnitetracker.com/profile/all/{}"
+    },
+    {
+      "site": "Xbox Gamertag",
+      "url": "https://xboxgamertag.com/search/{}"
+    },
+    {
+      "site": "PlayStation",
+      "url": "https://my.playstation.com/profile/{}"
+    },
+    {
+      "site": "Lichess",
+      "url": "https://lichess.org/@/{}"
+    },
+    {
+      "site": "Chess.com",
+      "url": "https://www.chess.com/member/{}"
+    },
+    {
+      "site": "Osu!",
+      "url": "https://osu.ppy.sh/users/{}"
+    },
+    {
+      "site": "DeviantArt",
+      "url": "https://www.deviantart.com/{}"
+    },
+    {
+      "site": "Behance",
+      "url": "https://www.behance.net/{}"
+    },
+    {
+      "site": "Dribbble",
+      "url": "https://dribbble.com/{}"
+    },
+    {
+      "site": "Medium",
+      "url": "https://medium.com/@{}"
+    },
+    {
+      "site": "Wattpad",
+      "url": "https://www.wattpad.com/user/{}"
+    },
+    {
+      "site": "Goodreads",
+      "url": "https://www.goodreads.com/user/show/{}"
+    },
+    {
+      "site": "Letterboxd",
+      "url": "https://letterboxd.com/{}"
+    },
+    {
+      "site": "Fiverr",
+      "url": "https://www.fiverr.com/{}"
+    },
+    {
+      "site": "GitHub",
+      "url": "https://github.com/{}"
+    },
+    {
+      "site": "GitLab",
+      "url": "https://gitlab.com/{}"
+    },
+    {
+      "site": "Bitbucket",
+      "url": "https://bitbucket.org/{}"
+    },
+    {
+      "site": "About.me",
+      "url": "https://about.me/{}"
+    },
+    {
+      "site": "Academia.edu",
+      "url": "https://independent.academia.edu/{}"
+    },
+    {
+      "site": "ResearchGate",
+      "url": "https://www.researchgate.net/profile/{}"
+    },
+    {
+      "site": "Strava",
+      "url": "https://www.strava.com/athletes/{}"
+    },
+    {
+      "site": "Mastodon",
+      "url": "https://mastodon.social/@{}"
+    },
+    {
+      "site": "Bluesky",
+      "url": "https://bsky.app/profile/{}"
+    },
+    {
+      "site": "Quora",
+      "url": "https://www.quora.com/profile/{}"
+    },
+    {
+      "site": "HackerNews",
+      "url": "https://news.ycombinator.com/user?id={}"
+    },
+    {
+      "site": "Trello",
+      "url": "https://trello.com/{}"
+    },
+    {
+      "site": "ArtStation",
+      "url": "https://www.artstation.com/{}"
+    },
+    {
+      "site": "Vimeo",
+      "url": "https://vimeo.com/{}"
+    },
+    {
+      "site": "Last.fm",
+      "url": "https://www.last.fm/user/{}"
+    },
+    {
+      "site": "Trakt",
+      "url": "https://trakt.tv/users/{}"
+    },
+    {
+      "site": "BoardGameGeek",
+      "url": "https://boardgamegeek.com/user/{}"
+    },
+    {
+      "site": "500px",
+      "url": "https://500px.com/p/{}"
+    },
+    {
+      "site": "GOG.com",
+      "url": "https://www.gog.com/u/{}"
+    },
+    {
+      "site": "Itch.io",
+      "url": "https://{}.itch.io/"
+    },
+    {
+      "site": "Nexus Mods",
+      "url": "https://users.nexusmods.com/Users/Profile?username={}"
+    },
+    {
+      "site": "Xing",
+      "url": "https://www.xing.com/profile/{}"
+    },
+    {
+      "site": "AngelList",
+      "url": "https://angel.co/u/{}"
+    },
+    {
+      "site": "G2G",
+      "url": "https://www.g2g.com/user/{}"
+    },
+    {
+      "site": "Carbonmade",
+      "url": "https://{}.carbonmade.com"
+    },
+    {
+      "site": "Rate Your Music",
+      "url": "https://rateyourmusic.com/~{}"
+    },
+    {
+      "site": "Speaker Deck",
+      "url": "https://speakerdeck.com/{}"
+    },
+    {
+      "site": "IGN Boards",
+      "url": "https://www.ignboards.com/users/{}/"
+    },
+    {
+      "site": "Linktree",
+      "url": "https://linktr.ee/{}"
+    },
+    {
+      "site": "Minds",
+      "url": "https://www.minds.com/{}/"
+    },
+    {
+      "site": "Blogger",
+      "url": "https://{}.blogspot.com/"
+    },
+    {
+      "site": "Coroflot",
+      "url": "https://www.coroflot.com/{}"
+    },
+    {
+      "site": "Tumblr",
+      "url": "https://{}.tumblr.com"
+    },
+    {
+      "site": "Flickr",
+      "url": "https://www.flickr.com/people/{}"
+    },
+    {
+      "site": "Patreon",
+      "url": "https://www.patreon.com/{}"
+    },
+    {
+      "site": "Ko-Fi",
+      "url": "https://ko-fi.com/{}"
+    },
+    {
+      "site": "CashApp",
+      "url": "https://cash.app/${}"
+    },
+    {
+      "site": "PayPal.Me",
+      "url": "https://www.paypal.me/{}"
+    },
+    {
+      "site": "Venmo",
+      "url": "https://venmo.com/{}"
+    },
+    {
+      "site": "Crunchyroll",
+      "url": "https://www.crunchyroll.com/news/author/{}"
+    },
+    {
+      "site": "MyAnimeList",
+      "url": "https://myanimelist.net/profile/{}"
+    },
+    {
+      "site": "Untappd",
+      "url": "https://untappd.com/user/{}"
+    },
+    {
+      "site": "TripAdvisor",
+      "url": "https://www.tripadvisor.com/members/{}"
+    },
+    {
+      "site": "Couchsurfing",
+      "url": "https://www.couchsurfing.com/people/{}"
+    },
+    {
+      "site": "VK",
+      "url": "https://vk.com/{}"
+    },
+    {
+      "site": "Dev.to",
+      "url": "https://dev.to/{}"
+    },
+    {
+      "site": "StackOverflow",
+      "url": "https://stackoverflow.com/users/story/{}"
+    },
+    {
+      "site": "CodePen",
+      "url": "https://codepen.io/{}"
+    },
+    {
+      "site": "Hashnode",
+      "url": "https://hashnode.com/@{}"
+    },
+    {
+      "site": "ProductHunt",
+      "url": "https://www.producthunt.com/@{}"
+    },
+    {
+      "site": "Cacher",
+      "url": "https://app.cacher.io/users/{}"
+    },
+    {
+      "site": "Kaggle",
+      "url": "https://www.kaggle.com/{}"
+    },
+    {
+      "site": "LeetCode",
+      "url": "https://leetcode.com/{}"
+    },
+    {
+      "site": "Replit",
+      "url": "https://replit.com/@{}"
+    },
+    {
+      "site": "Ghost",
+      "url": "https://{}.ghost.io/"
+    },
+    {
+      "site": "Substack",
+      "url": "https://{}.substack.com/"
+    },
+    {
+      "site": "Vocal Media",
+      "url": "https://vocal.media/authors/{}"
+    },
+    {
+      "site": "Subreddit",
+      "url": "https://www.reddit.com/u/{}"
+    },
+    {
+      "site": "SlideShare",
+      "url": "https://www.slideshare.net/{}"
+    },
+    {
+      "site": "Scribd",
+      "url": "https://www.scribd.com/{}"
+    },
+    {
+      "site": "Wix",
+      "url": "https://{}.wixsite.com"
+    },
+    {
+      "site": "Weebly",
+      "url": "https://{}.weebly.com"
+    },
+    {
+      "site": "Lemmy",
+      "url": "https://lemmy.ml/u/{}"
+    },
+    {
+      "site": "Kbin",
+      "url": "https://kbin.social/u/{}"
+    },
+    {
+      "site": "BeReal",
+      "url": "https://bere.al/{}"
+    },
+    {
+      "site": "Minds",
+      "url": "https://www.minds.com/{}"
+    },
+    {
+      "site": "Gab",
+      "url": "https://gab.com/{}"
+    },
+    {
+      "site": "MeWe",
+      "url": "https://mewe.com/i/{}"
+    },
+    {
+      "site": "Ello",
+      "url": "https://ello.co/{}"
+    },
+    {
+      "site": "OpenSea",
+      "url": "https://opensea.io/{}"
+    },
+    {
+      "site": "Rarible",
+      "url": "https://rarible.com/{}"
+    },
+    {
+      "site": "Zora",
+      "url": "https://zora.co/{}"
+    },
+    {
+      "site": "Foundation",
+      "url": "https://foundation.app/@{}"
+    },
+    {
+      "site": "CoinMarketCap",
+      "url": "https://coinmarketcap.com/community/profile/{}"
+    },
+    {
+      "site": "Etsy",
+      "url": "https://www.etsy.com/shop/{}"
+    },
+    {
+      "site": "Redbubble",
+      "url": "https://www.redbubble.com/people/{}"
+    },
+    {
+      "site": "Society6",
+      "url": "https://society6.com/{}"
+    },
+    {
+      "site": "BigCartel",
+      "url": "https://{}.bigcartel.com/"
+    },
+    {
+      "site": "Kitsu",
+      "url": "https://kitsu.io/users/{}"
+    },
+    {
+      "site": "FanFiction",
+      "url": "https://www.fanfiction.net/u/{}"
+    },
+    {
+      "site": "AO3",
+      "url": "https://archiveofourown.org/users/{}"
+    },
+    {
+      "site": "Inkitt",
+      "url": "https://www.inkitt.com/{}"
+    },
+    {
+      "site": "Pixiv",
+      "url": "https://www.pixiv.net/en/users/{}"
+    },
+    {
+      "site": "Zwift",
+      "url": "https://www.zwiftpower.com/profile.php?z={}"
+    },
+    {
+      "site": "Runkeeper",
+      "url": "https://runkeeper.com/user/{}"
+    },
+    {
+      "site": "Chess24",
+      "url": "https://chess24.com/en/profile/{}"
+    },
+    {
+      "site": "StackExchange",
+      "url": "https://stackexchange.com/users/{}"
+    },
+    {
+      "site": "MetaFilter",
+      "url": "https://www.metafilter.com/user/{}"
+    },
+    {
+      "site": "Keybase",
+      "url": "https://keybase.io/{}"
+    },
+    {
+      "site": "Freelancer",
+      "url": "https://www.freelancer.com/u/{}"
+    },
+    {
+      "site": "Crowdsource",
+      "url": "https://www.crowdsource.com/profile/{}"
+    },
+    {
+      "site": "Hackaday.io",
+      "url": "https://hackaday.io/{}"
+    },
+    {
+      "site": "SourceForge",
+      "url": "https://sourceforge.net/u/{}/profile"
+    },
+    {
+      "site": "Coderwall",
+      "url": "https://coderwall.com/{}"
+    },
+    {
+      "site": "Cplusplus",
+      "url": "https://cplusplus.com/user/{}"
+    },
+    {
+      "site": "Rustaceans",
+      "url": "https://users.rust-lang.org/u/{}"
+    },
+    {
+      "site": "PythonAnywhere",
+      "url": "https://www.pythonanywhere.com/user/{}"
+    },
+    {
+      "site": "DevRant",
+      "url": "https://devrant.com/users/{}"
+    },
+    {
+      "site": "CryptoPunks",
+      "url": "https://www.larvalabs.com/cryptopunks/{}"
+    },
+    {
+      "site": "BitClout",
+      "url": "https://bitclout.com/u/{}"
+    },
+    {
+      "site": "DegenArtClub",
+      "url": "https://degen.art/u/{}"
+    },
+    {
+      "site": "Mirror.xyz",
+      "url": "https://mirror.xyz/{}"
+    },
+    {
+      "site": "DappRadar",
+      "url": "https://dappradar.com/u/{}"
+    },
+    {
+      "site": "AniDB",
+      "url": "https://anidb.net/perl-bin/animedb.pl?show=user&uid={}"
+    },
+    {
+      "site": "AniList",
+      "url": "https://anilist.co/user/{}"
+    },
+    {
+      "site": "MangaUpdates",
+      "url": "https://www.mangaupdates.com/profile.html?id={}"
+    },
+    {
+      "site": "Quotev",
+      "url": "https://www.quotev.com/{}"
+    },
+    {
+      "site": "ComicFury",
+      "url": "https://comicfury.com/profile.php?username={}"
+    },
+    {
+      "site": "99designs",
+      "url": "https://99designs.com/profiles/{}"
+    },
+    {
+      "site": "DesignCrowd",
+      "url": "https://www.designcrowd.com/{}"
+    },
+    {
+      "site": "PeoplePerHour",
+      "url": "https://www.peopleperhour.com/freelancer/{}"
+    },
+    {
+      "site": "CrowdSpring",
+      "url": "https://www.crowdspring.com/{}"
+    },
+    {
+      "site": "Envato Studio",
+      "url": "https://studio.envato.com/users/{}"
+    },
+    {
+      "site": "MapMyRun",
+      "url": "https://www.mapmyrun.com/profile/{}"
+    },
+    {
+      "site": "Garmin Connect",
+      "url": "https://connect.garmin.com/modern/profile/{}"
+    },
+    {
+      "site": "Pleroma",
+      "url": "https://pleroma.site/users/{}"
+    },
+    {
+      "site": "Friendica",
+      "url": "https://friendica.{}"
+    },
+    {
+      "site": "Diaspora*",
+      "url": "https://joindiaspora.com/u/{}"
+    },
+    {
+      "site": "Misskey",
+      "url": "https://misskey.io/@{}"
+    },
+    {
+      "site": "Scuttlebutt",
+      "url": "https://scuttlebutt.nz/users/{}"
+    },
+    {
+      "site": "Giphy",
+      "url": "https://giphy.com/{}"
+    },
+    {
+      "site": "Bandlab",
+      "url": "https://www.bandlab.com/{}"
+    },
+    {
+      "site": "Jamendo",
+      "url": "https://www.jamendo.com/artist/{}"
+    }
+  ]
+}
