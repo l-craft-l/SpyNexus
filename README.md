@@ -1,8 +1,16 @@
-<p align="center">
-    <img width=350 height=500 src="screenshots/main.png">
-</p>
+![Screenshot](screenshots/main.png)
 
 # 🧠 SpyNexus – The network of espionage and information analysis
+
+---
+# 📋 Table of contents
+- 📝 [Requirements](#-requirements)
+- 📃 [Installation](#-installation)
+- ❓ [What is SpyNexus](#-what-is-spynexus)
+- 🧰 [Features/Tools](#-features)
+- 🧄 [Tor Installation](#-installation--initiation-of-the-tor-network)
+- 🎭 [Examples](#-examples)
+- 👤 [About me](#fun-fact-)
 
 ---
 
@@ -24,7 +32,7 @@ pip install --upgrade pip
 for helping the installation for SpyNexus (^_^)
 ````
 
-## 📃 installation
+## 📃 Installation
 ```bash
 source {env}/bin/activate <-- replace env for your environment.
 
@@ -36,6 +44,10 @@ python SpyNexus.py
 🛠️ *It will install the missing packages automatically.*
 🔁 *Once done, run the script again to start.*
 
+**⚠️ In case you got an error do this:**
+```
+pip install -r requirements.txt
+```
 ---
 
 ## ❓ What is SpyNexus?
@@ -48,22 +60,48 @@ python SpyNexus.py
 * 📰 Cyber journalists
 
 It combines multiple tools to gather **public intelligence** from different sources — **legally and ethically**.
+Also can be run in a ***Mobile environment with Termux!***
 
 ---
 
-## 🧰 Features (Tools)
+## 🧰 Features
 
 1. 🌐 Track your current IP
 2. 🖥️ Search public IPs
 3. 🌍 Get info from a website (WHOIS)
 4. 📱 Track phone numbers
 5. 🗺️ Search coordinates or places
-6. 👤 Search users on various sites
+6. 👤 Search users on various sites ***Recent update, now it's faster and with more websites***
 7. 🖼️ Extract metadata from images
 8. 🔍 Google Dorking (with custom commands)
 9. 🎩 Deep Search (deep/dark web engines)
 
+- 🎉 **New Feature!** Now the results saved are in a **Markdown file**, now it's easier to read and understand! You can see his content in this [website](https://stackedit.io/app#)
+
+
+| **Category**           | **SpyNexus**                                                        |
+|------------------------|----------------------------------------------------------------------|
+| **Interface**          | Intuitive CLI, works great on both PC and mobile                    |
+| **Automation**         | Very high: automatic pipelines                                      |
+| **Anonymity (Tor/UA)** | Full support for Tor network and user-agent rotation                |
+| **Google Dorks**       | Advanced module with predefined and custom batch commands + Tor     |
+| **Deep/Dark Web**      | Supports .onion engines, checks and blacklists dead links           |
+| **User Enumeration**   | 200+ sites, NSFW support, ~70% accuracy confirmed                   |
+| **Phone Lookups**      | High accuracy (~75%), supports basic geolocation                    |
+| **IP & Geolocation**   | High accuracy (~80%), with optional map integration                 |
+| **Image Metadata**     | Full EXIF support, GPS extraction, additional sensor data           |
+| **Overall Accuracy**   | Very high (~70–95% depending on module)                             |
+| **Execution Speed**    | High, configurable (requests vs. socks5)                            |
+| **Ease of Use**        | High: mobile-friendly, guides and real examples                     |
+| **Documentation**      | Exists with code comments, visual examples, could expand more       |
+| **Installation**       | Moderate (venv recommended, mobile-friendly, could be improved)     |
+| **Customization**      | High: easy to edit/add engines, sites, operators directly in code   |
+| **Overall Coverage**   | **Strong mix:** Google Dorks + user search + web + metadata                   |
+| **Actively Maintained**| Yes: developed by a solo creator, **OPEN for testers and feedback**     |
+
 ---
+
+
 
 ## 🔐 New Feature: Tor Support for the most Tools of SpyNexus
 
@@ -95,6 +133,8 @@ and start, just typing **"tor"** and doing enter.
 Once it says **"done"** at the end of the terminal.
 
 **Now you can use the Tor feature in SpyNexus!**
+
+
 
 ---
 
@@ -147,6 +187,10 @@ Once it says **"done"** at the end of the terminal.
 ***Example 4***
 
 ![Screenshot](screenshots/example4.png)
+
+***Example 5***
+
+![Screenshot](screenshots/example5.png)
 
 ---
 
